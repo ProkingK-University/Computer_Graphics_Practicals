@@ -1,0 +1,14 @@
+[
+{
+  "directory": "/home/prokingk/Projects/School/COS344/OpenGL/build",
+  "command": "/usr/bin/gcc   -g -o CMakeFiles/my_opengl_project.dir/src/main.c.o -c /home/prokingk/Projects/School/COS344/OpenGL/src/main.c",
+  "file": "/home/prokingk/Projects/School/COS344/OpenGL/src/main.c",
+  "output": "CMakeFiles/my_opengl_project.dir/src/main.c.o"
+},
+{
+  "directory": "/home/prokingk/Projects/School/COS344/OpenGL/build",
+  "command": "/usr/bin/gcc   -g -o CMakeFiles/my_opengl_project.dir/src/glad.c.o -c /home/prokingk/Projects/School/COS344/OpenGL/src/glad.c",
+  "file": "/home/prokingk/Projects/School/COS344/OpenGL/src/glad.c",
+  "output": "CMakeFiles/my_opengl_project.dir/src/glad.c.o"
+}
+]
