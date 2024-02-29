@@ -1,7 +1,8 @@
 #ifndef MATH_EXCEPTIONS_H
 #define MATH_EXCEPTIONS_H
 
-enum struct MathExceptions{
+enum struct MathExceptions
+{
     InvalidVectorSize,
     InvalidMatrixSize,
     UnsolvableSystemOfLinearEquations,
