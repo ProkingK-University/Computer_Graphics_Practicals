@@ -2,17 +2,37 @@
 
 Vector::Vector(int n)
 {
-    // TODO: Implement
+    if (n > 0)
+    {
+        this->n = n;
+        arr = new double[n];
+
+        for (int i = 0; i < n; i++)
+        {
+            arr[i] = 1.0;
+        }
+    }
+    else
+    {
+        throw MathExceptions::InvalidVectorSize;
+    }
 }
 
 Vector::Vector(int n, double *arr)
 {
-    // TODO: Implement
+    this->n = n;
+    this->arr = arr;
 }
 
 Vector::Vector(const Vector &other)
 {
-    // TODO: Implement
+    n = other.n;
+    arr = new double[n];
+
+    for (int i = 0; i < n; i++)
+    {
+        arr[i] = other.arr[i];
+    }
 }
 
 Vector Vector::operator+(const Vector other) const
