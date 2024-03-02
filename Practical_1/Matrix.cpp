@@ -178,11 +178,11 @@ double **getCofactor(double **matrix, int size)
     {
         for (int j = 0; j < size; j++)
         {
-            double **submatrix = new double *[size - 1];
+            double **subMatrix = new double *[size - 1];
 
             for (int k = 0; k < size - 1; k++)
             {
-                submatrix[k] = new double[size - 1];
+                subMatrix[k] = new double[size - 1];
             }
 
             int rowOffset = 0;
@@ -205,20 +205,20 @@ double **getCofactor(double **matrix, int size)
                         continue;
                     }
 
-                    submatrix[k - rowOffset][l - colOffset] = matrix[k][l];
+                    subMatrix[k - rowOffset][l - colOffset] = matrix[k][l];
                 }
             }
 
-            double det = calculateDeterminant(submatrix, size - 1);
+            double det = calculateDeterminant(subMatrix, size - 1);
 
             cofactor[i][j] = ((i + j) % 2 == 0 ? 1 : -1) * det;
 
             for (int k = 0; k < size - 1; k++)
             {
-                delete[] submatrix[k];
+                delete[] subMatrix[k];
             }
 
-            delete[] submatrix;
+            delete[] subMatrix;
         }
     }
 
@@ -279,14 +279,84 @@ double SquareMatrix::determinant() const
 
 SquareMatrix SquareMatrix::operator!() const
 {
-    // TODO: Implement
-    return SquareMatrix(0);
+    double det = determinant();
+
+    if (det != 0)
+    {
+        SquareMatrix cofactor = SquareMatrix(n);
+        cofactor.arr = getCofactor(arr, n);
+
+        SquareMatrix transpose = ~cofactor;
+
+        SquareMatrix inverse = SquareMatrix(n);
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                inverse.arr[i][j] = transpose.arr[i][j] / det;
+            }
+        }
+
+        return inverse;
+    }
+}
+
+SquareMatrix gaussianElimination()
+{
+    SquareMatrix matrix = SquareMatrix(n, arr);
+
+    for (int i = 0; i < n; i++)
+    {
+        int maxRow = i;
+
+        for (int k = i + 1; k < n; k++)
+        {
+            if (abs(matrix.arr[k][i]) > abs(matrix.arr[maxRow][i]))
+            {
+                maxRow = k;
+            }
+        }
+
+        swap(matrix.arr[maxRow], matrix.arr[i]);
+
+        for (int k = i + 1; k < n; k++)
+        {
+            double factor = matrix.arr[k][i] / matrix.arr[i][i];
+
+            for (int j = i; j <= n; j++)
+            {
+                matrix.arr[k][j] -= matrix.arr[i][j] * factor;
+            }
+        }
+    }
+
+    return matrix;
+}
+
+Vector backSubstitution(SquareMatrix matrix)
+{
+    Vector solution(n);
+
+    for (int i = n - 1; i >= 0; i--)
+    {
+        solution.arr[i] = matrix.arr[i][n] / matrix.arr[i][i];
+
+        for (int k = i - 1; k >= 0; k--)
+        {
+            matrix.arr[k][n] -= matrix.arr[k][i] * solution.arr[i];
+        }
+    }
+
+    return solution;
 }
 
 Vector SquareMatrix::solve(const Vector v) const
 {
-    // TODO: Implement
-    return Vector(0);
+    SquareMatrix matrix = gaussianElimination(matrix);
+    Vector solution = backSubstitution(matrix);
+
+    return solution;
 }
 
 SquareMatrix::~SquareMatrix() {}
