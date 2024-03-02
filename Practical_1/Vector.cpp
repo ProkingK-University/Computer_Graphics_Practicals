@@ -131,22 +131,7 @@ double Vector::magnitude() const
         sum += arr[i] * arr[i];
     }
 
-    double epsilon = 1e-10;
-    double magnitude = sum;
-
-    while (true)
-    {
-        double y = (magnitude + sum / magnitude) / 2;
-
-        if (abs(magnitude - y) < epsilon)
-        {
-            break;
-        }
-
-        magnitude = y;
-    }
-
-    return magnitude;
+    return sqrt(sum);
 }
 
 Vector Vector::unitVector() const
@@ -163,6 +148,10 @@ Vector Vector::unitVector() const
         }
 
         return v;
+    }
+    else
+    {
+        throw MathExceptions::InvalidUnitVector;
     }
 }
 

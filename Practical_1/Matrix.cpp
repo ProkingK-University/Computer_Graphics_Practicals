@@ -165,7 +165,7 @@ SquareMatrix::SquareMatrix(int n) : Matrix(n, n) {}
 
 SquareMatrix::SquareMatrix(int n, double **arr) : Matrix(n, n, arr) {}
 
-double **getCofactor(double **matrix, int size)
+/* double **getCofactor(double **matrix, int size)
 {
     double **cofactor = new double *[size];
 
@@ -270,16 +270,17 @@ double calculateDeterminant(double **matrix, int n)
     }
 
     return det;
-}
+}*/
 
 double SquareMatrix::determinant() const
 {
-    return calculateDeterminant(arr, n);
+    // return calculateDeterminant(arr, n);
+    return 0.0;
 }
 
 SquareMatrix SquareMatrix::operator!() const
 {
-    double det = determinant();
+    /* double det = determinant();
 
     if (det != 0)
     {
@@ -299,10 +300,12 @@ SquareMatrix SquareMatrix::operator!() const
         }
 
         return inverse;
-    }
+    }*/
+
+    return SquareMatrix(1);
 }
 
-SquareMatrix gaussianElimination()
+/*SquareMatrix gaussianElimination()
 {
     SquareMatrix matrix = SquareMatrix(n, arr);
 
@@ -349,14 +352,15 @@ Vector backSubstitution(SquareMatrix matrix)
     }
 
     return solution;
-}
+}*/
 
 Vector SquareMatrix::solve(const Vector v) const
 {
-    SquareMatrix matrix = gaussianElimination(matrix);
+    /*SquareMatrix matrix = gaussianElimination(matrix);
     Vector solution = backSubstitution(matrix);
 
-    return solution;
+    return solution;*/
+    return Vector(1);
 }
 
 SquareMatrix::~SquareMatrix() {}
