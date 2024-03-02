@@ -21,5 +21,9 @@ int main()
     std::cout << std::endl;
     v3->print();
 
+    Matrix m = *v3;
+
+    m.print();
+
     return 0;
 }

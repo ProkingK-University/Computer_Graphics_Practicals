@@ -37,26 +37,71 @@ Vector::Vector(const Vector &other)
 
 Vector Vector::operator+(const Vector other) const
 {
-    // TODO: Implement
-    return Vector(0);
+    if (n == other.n)
+    {
+        Vector v = Vector(n);
+
+        for (int i = 0; i < n; i++)
+        {
+            v.arr[i] += other.arr[i];
+        }
+
+        return v;
+    }
+    else
+    {
+        throw MathExceptions::InvalidVectorAddition;
+    }
 }
 
 Vector Vector::operator-(const Vector other) const
 {
-    // TODO: Implement
-    return Vector(0);
+    if (n == other.n)
+    {
+        Vector v = Vector(n);
+
+        for (int i = 0; i < n; i++)
+        {
+            v.arr[i] -= other.arr[i];
+        }
+
+        return v;
+    }
+    else
+    {
+        throw MathExceptions::InvalidVectorAddition;
+    }
 }
 
 Vector Vector::operator*(const double scalar) const
 {
-    // TODO: Implement
-    return Vector(0);
+    Vector v = Vector(n);
+
+    for (int i = 0; i < n; i++)
+    {
+        v.arr[i] *= scalar;
+    }
+
+    return v;
 }
 
 double Vector::operator*(const Vector other) const
 {
-    // TODO: Implement
-    return 0.0;
+    if (n == other.n)
+    {
+        double result = 0.0;
+
+        for (int i = 0; i < n; ++i)
+        {
+            result += arr[i] * other.arr[i];
+        }
+
+        return result;
+    }
+    else
+    {
+        throw MathExceptions::InvalidDotProduct;
+    }
 }
 
 int Vector::getN() const
@@ -66,26 +111,77 @@ int Vector::getN() const
 
 Vector::operator Matrix() const
 {
-    // TODO: Implement
-    return Matrix(0, 0);
+    double **vectorValues = new double *[n];
+
+    for (int i = 0; i < n; i++)
+    {
+        vectorValues[i] = new double[1];
+        vectorValues[i][0] = arr[i];
+    }
+
+    return Matrix(n, 1, vectorValues);
 }
 
 double Vector::magnitude() const
 {
-    // TODO: Implement
-    return 0.0;
+    double sum = 0.0;
+
+    for (int i = 0; i < n; ++i)
+    {
+        sum += arr[i] * arr[i];
+    }
+
+    double epsilon = 1e-10;
+    double magnitude = sum;
+
+    while (true)
+    {
+        double y = (magnitude + sum / magnitude) / 2;
+
+        if (abs(magnitude - y) < epsilon)
+        {
+            break;
+        }
+
+        magnitude = y;
+    }
+
+    return magnitude;
 }
 
 Vector Vector::unitVector() const
 {
-    // TODO: Implement
-    return Vector(0);
+    double magnitude = this->magnitude();
+
+    if (magnitude != 0)
+    {
+        Vector v = Vector(n);
+
+        for (int i = 0; i < n; i++)
+        {
+            v.arr[i] /= magnitude;
+        }
+
+        return v;
+    }
 }
 
 Vector Vector::crossProduct(const Vector other) const
 {
-    // TODO: Implement
-    return Vector(0);
+    if (n == 3 && other.n == 3)
+    {
+        Vector v = Vector(3);
+
+        v.arr[0] = arr[1] * other.arr[2] - arr[2] * other.arr[1];
+        v.arr[1] = arr[2] * other.arr[0] - arr[0] * other.arr[2];
+        v.arr[2] = arr[0] * other.arr[1] - arr[1] * other.arr[0];
+
+        return v;
+    }
+    else
+    {
+        throw MathExceptions::InvalidCrossProduct;
+    }
 }
 
 Vector::~Vector()
