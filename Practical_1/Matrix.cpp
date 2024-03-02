@@ -2,29 +2,74 @@
 
 Matrix::Matrix(int n, int m)
 {
-    // TODO: Implement
+    if (n > 0 && m > 0)
+    {
+        this->n = n;
+        this->m = m;
+
+        arr = new double *[n];
+
+        for (int i = 0; i < n; i++)
+        {
+            arr[i] = new double[m];
+        }
+    }
+    else
+    {
+        throw MathExceptions::InvalidMatrixSize;
+    }
 }
 
 Matrix::Matrix(const Matrix &other)
 {
-    // TODO: Implement
+    n = other.n;
+    m = other.m;
+
+    arr = new double *[n];
+
+    for (int i = 0; i < n; i++)
+    {
+        arr[i] = new double[m];
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            arr[i][j] = other.arr[i][j];
+        }
+    }
 }
 
 Matrix::Matrix(int n, int m, double **arr)
 {
-    // TODO: Implement
+    this->n = n;
+    this->m = m;
+
+    this->arr = new double *[n];
+
+    for (int i = 0; i < n; i++)
+    {
+        this->arr[i] = new double[m];
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            this->arr[i][j] = arr[i][j];
+        }
+    }
 }
 
 int Matrix::getM() const
 {
-    // TODO: Implement
-    return 0;
+    return m;
 }
 
 int Matrix::getN() const
 {
-    // TODO: Implement
-    return 0;
+    return n;
 }
 
 Matrix Matrix::operator~() const
@@ -53,7 +98,12 @@ Matrix Matrix::operator*(const double scalar) const
 
 Matrix::~Matrix()
 {
-    // TODO: Implement
+    for (int i = 0; i < n; ++i)
+    {
+        delete[] arr[i];
+    }
+
+    delete[] arr;
 }
 
 SquareMatrix::SquareMatrix(int n) : Matrix(n, n)

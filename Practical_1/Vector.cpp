@@ -61,8 +61,7 @@ double Vector::operator*(const Vector other) const
 
 int Vector::getN() const
 {
-    // TODO: Implement
-    return 0;
+    return n;
 }
 
 Vector::operator Matrix() const
@@ -91,5 +90,6 @@ Vector Vector::crossProduct(const Vector other) const
 
 Vector::~Vector()
 {
-    // TODO: Implement
+    delete[] arr;
+    arr = NULL;
 }

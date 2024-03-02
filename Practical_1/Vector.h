@@ -9,8 +9,8 @@ class Matrix;
 class Vector
 {
 private:
-    int n;       // size of the vector
-    double *arr; // array containing the elements in the vector
+    int n;
+    double *arr;
 
 public:
     Vector(int);
