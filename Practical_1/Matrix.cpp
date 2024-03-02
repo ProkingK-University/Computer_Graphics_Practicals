@@ -106,15 +106,9 @@ Matrix::~Matrix()
     delete[] arr;
 }
 
-SquareMatrix::SquareMatrix(int n) : Matrix(n, n)
-{
-    // TODO: Implement
-}
+SquareMatrix::SquareMatrix(int n) : Matrix(n, n) {}
 
-SquareMatrix::SquareMatrix(int n, double **arr) : Matrix(n, n, arr)
-{
-    // TODO: Implement
-}
+SquareMatrix::SquareMatrix(int n, double **arr) : Matrix(n, n, arr) {}
 
 double SquareMatrix::determinant() const
 {
@@ -134,17 +128,24 @@ Vector SquareMatrix::solve(const Vector v) const
     return Vector(0);
 }
 
-SquareMatrix::~SquareMatrix()
-{
-    // TODO: Implement
-}
+SquareMatrix::~SquareMatrix() {}
 
 IdentityMatrix::IdentityMatrix(int n) : SquareMatrix(n)
 {
-    // TODO: Implement
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            if (i == j)
+            {
+                arr[i][j] = 1;
+            }
+            else
+            {
+                arr[i][j] = 0;
+            }
+        }
+    }
 }
 
-IdentityMatrix::~IdentityMatrix()
-{
-    // TODO: Implement
-}
+IdentityMatrix::~IdentityMatrix() {}
