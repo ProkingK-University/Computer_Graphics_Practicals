@@ -43,7 +43,7 @@ Vector Vector::operator+(const Vector other) const
 
         for (int i = 0; i < n; i++)
         {
-            v.arr[i] += other.arr[i];
+            v.arr[i] = arr[i] + other.arr[i];
         }
 
         return v;
@@ -62,7 +62,7 @@ Vector Vector::operator-(const Vector other) const
 
         for (int i = 0; i < n; i++)
         {
-            v.arr[i] -= other.arr[i];
+            v.arr[i] = arr[i] - other.arr[i];
         }
 
         return v;
@@ -79,7 +79,7 @@ Vector Vector::operator*(const double scalar) const
 
     for (int i = 0; i < n; i++)
     {
-        v.arr[i] *= scalar;
+        v.arr[i] = arr[i] * scalar;
     }
 
     return v;
@@ -159,7 +159,7 @@ Vector Vector::unitVector() const
 
         for (int i = 0; i < n; i++)
         {
-            v.arr[i] /= magnitude;
+            v.arr[i] = arr[i] / magnitude;
         }
 
         return v;

@@ -74,26 +74,79 @@ int Matrix::getN() const
 
 Matrix Matrix::operator~() const
 {
-    // TODO: Implement
-    return Matrix(0, 0);
+    Matrix matrix = Matrix(n, m);
+
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < m; ++j)
+        {
+            matrix.arr[j][i] = arr[i][j];
+        }
+    }
+
+    return matrix;
 }
 
 Matrix Matrix::operator+(const Matrix other) const
 {
-    // TODO: Implement
-    return Matrix(0, 0);
+    if (n == other.n && m == other.m)
+    {
+        Matrix matrix = Matrix(n, m);
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < m; j++)
+            {
+                matrix.arr[i][j] = arr[i][j] + other.arr[i][j];
+            }
+        }
+
+        return matrix;
+    }
+    else
+    {
+        throw MathExceptions::InvalidMatrixAddition;
+    }
 }
 
 Matrix Matrix::operator*(const Matrix other) const
 {
-    // TODO: Implement
-    return Matrix(0, 0);
+    if (m == other.n)
+    {
+        Matrix matrix = Matrix(n, other.m);
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < other.m; j++)
+            {
+                for (int k = 0; k < m; k++)
+                {
+                    matrix.arr[i][j] += arr[i][k] * other.arr[k][j];
+                }
+            }
+        }
+
+        return matrix;
+    }
+    else
+    {
+        throw MathExceptions::InvalidMatrixMultiplication;
+    }
 }
 
 Matrix Matrix::operator*(const double scalar) const
 {
-    // TODO: Implement
-    return Matrix(0, 0);
+    Matrix matrix = Matrix(n, m);
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            matrix.arr[i][j] = arr[i][j] * scalar;
+        }
+    }
+
+    return matrix;
 }
 
 Matrix::~Matrix()
@@ -101,19 +154,127 @@ Matrix::~Matrix()
     for (int i = 0; i < n; ++i)
     {
         delete[] arr[i];
+        arr[i] = NULL;
     }
 
     delete[] arr;
+    arr = NULL;
 }
 
 SquareMatrix::SquareMatrix(int n) : Matrix(n, n) {}
 
 SquareMatrix::SquareMatrix(int n, double **arr) : Matrix(n, n, arr) {}
 
+double **getCofactor(double **matrix, int size)
+{
+    double **cofactor = new double *[size];
+
+    for (int i = 0; i < size; i++)
+    {
+        cofactor[i] = new double[size];
+    }
+
+    for (int i = 0; i < size; i++)
+    {
+        for (int j = 0; j < size; j++)
+        {
+            double **submatrix = new double *[size - 1];
+
+            for (int k = 0; k < size - 1; k++)
+            {
+                submatrix[k] = new double[size - 1];
+            }
+
+            int rowOffset = 0;
+
+            for (int k = 0; k < size; k++)
+            {
+                if (k == i)
+                {
+                    rowOffset = 1;
+                    continue;
+                }
+
+                int colOffset = 0;
+
+                for (int l = 0; l < size; l++)
+                {
+                    if (l == j)
+                    {
+                        colOffset = 1;
+                        continue;
+                    }
+
+                    submatrix[k - rowOffset][l - colOffset] = matrix[k][l];
+                }
+            }
+
+            double det = calculateDeterminant(submatrix, size - 1);
+
+            cofactor[i][j] = ((i + j) % 2 == 0 ? 1 : -1) * det;
+
+            for (int k = 0; k < size - 1; k++)
+            {
+                delete[] submatrix[k];
+            }
+
+            delete[] submatrix;
+        }
+    }
+
+    return cofactor;
+}
+
+double calculateDeterminant(double **matrix, int n)
+{
+    double det = 0;
+    double **subMatrix = new double *[n];
+
+    for (int i = 0; i < n; i++)
+    {
+        subMatrix[i] = new double[n];
+    }
+
+    if (n == 2)
+    {
+        return ((matrix[0][0] * matrix[1][1]) - (matrix[1][0] * matrix[0][1]));
+    }
+    else
+    {
+        for (int x = 0; x < n; x++)
+        {
+            int subI = 0;
+
+            for (int i = 1; i < n; i++)
+            {
+                int subJ = 0;
+
+                for (int j = 0; j < n; j++)
+                {
+                    if (j == x)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        subMatrix[subI][subJ] = matrix[i][j];
+                        subJ++;
+                    }
+                }
+
+                subI++;
+            }
+
+            det = det + (pow(-1, x) * matrix[0][x] * calculateDeterminant(subMatrix, n - 1));
+        }
+    }
+
+    return det;
+}
+
 double SquareMatrix::determinant() const
 {
-    // TODO: Implement
-    return 0.0;
+    return calculateDeterminant(arr, n);
 }
 
 SquareMatrix SquareMatrix::operator!() const
