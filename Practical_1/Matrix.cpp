@@ -165,7 +165,59 @@ SquareMatrix::SquareMatrix(int n) : Matrix(n, n) {}
 
 SquareMatrix::SquareMatrix(int n, double **arr) : Matrix(n, n, arr) {}
 
-/* double **getCofactor(double **matrix, int size)
+double calculateDeterminant(double **matrix, int n)
+{
+    double det = 0;
+    double **subMatrix = new double *[n];
+
+    for (int i = 0; i < n; i++)
+    {
+        subMatrix[i] = new double[n];
+    }
+
+    if (n == 2)
+    {
+        return ((matrix[0][0] * matrix[1][1]) - (matrix[1][0] * matrix[0][1]));
+    }
+    else
+    {
+        for (int x = 0; x < n; x++)
+        {
+            int subI = 0;
+
+            for (int i = 1; i < n; i++)
+            {
+                int subJ = 0;
+
+                for (int j = 0; j < n; j++)
+                {
+                    if (j == x)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        subMatrix[subI][subJ] = matrix[i][j];
+                        subJ++;
+                    }
+                }
+
+                subI++;
+            }
+
+            det = det + (pow(-1, x) * matrix[0][x] * calculateDeterminant(subMatrix, n - 1));
+        }
+    }
+
+    return det;
+}
+
+double SquareMatrix::determinant() const
+{
+    return calculateDeterminant(arr, n);
+}
+
+double **getCofactor(double **matrix, int size)
 {
     double **cofactor = new double *[size];
 
@@ -225,69 +277,30 @@ SquareMatrix::SquareMatrix(int n, double **arr) : Matrix(n, n, arr) {}
     return cofactor;
 }
 
-double calculateDeterminant(double **matrix, int n)
-{
-    double det = 0;
-    double **subMatrix = new double *[n];
-
-    for (int i = 0; i < n; i++)
-    {
-        subMatrix[i] = new double[n];
-    }
-
-    if (n == 2)
-    {
-        return ((matrix[0][0] * matrix[1][1]) - (matrix[1][0] * matrix[0][1]));
-    }
-    else
-    {
-        for (int x = 0; x < n; x++)
-        {
-            int subI = 0;
-
-            for (int i = 1; i < n; i++)
-            {
-                int subJ = 0;
-
-                for (int j = 0; j < n; j++)
-                {
-                    if (j == x)
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        subMatrix[subI][subJ] = matrix[i][j];
-                        subJ++;
-                    }
-                }
-
-                subI++;
-            }
-
-            det = det + (pow(-1, x) * matrix[0][x] * calculateDeterminant(subMatrix, n - 1));
-        }
-    }
-
-    return det;
-}*/
-
-double SquareMatrix::determinant() const
-{
-    // return calculateDeterminant(arr, n);
-    return 0.0;
-}
-
 SquareMatrix SquareMatrix::operator!() const
 {
-    /* double det = determinant();
+    double det = determinant();
 
     if (det != 0)
     {
-        SquareMatrix cofactor = SquareMatrix(n);
-        cofactor.arr = getCofactor(arr, n);
+        double **array = getCofactor(arr, n);
 
-        SquareMatrix transpose = ~cofactor;
+        SquareMatrix cofactor = SquareMatrix(n, array);
+
+        double **transpose = new double *[n];
+
+        for (int i = 0; i < n; i++)
+        {
+            transpose[i] = new double[n];
+        }
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                transpose[j][i] = cofactor.arr[i][j];
+            }
+        }
 
         SquareMatrix inverse = SquareMatrix(n);
 
@@ -295,72 +308,55 @@ SquareMatrix SquareMatrix::operator!() const
         {
             for (int j = 0; j < n; j++)
             {
-                inverse.arr[i][j] = transpose.arr[i][j] / det;
+                inverse.arr[i][j] = transpose[i][j] / det;
             }
         }
 
         return inverse;
-    }*/
-
-    return SquareMatrix(1);
+    }
+    else
+    {
+        throw MathExceptions::UnsolvableSystemOfLinearEquations;
+    }
 }
 
-/*SquareMatrix gaussianElimination()
+void gaussianElimination(double **matrix, double *vector, double *solution, int n)
 {
-    SquareMatrix matrix = SquareMatrix(n, arr);
-
     for (int i = 0; i < n; i++)
     {
-        int maxRow = i;
-
-        for (int k = i + 1; k < n; k++)
+        for (int j = i + 1; j < n; j++)
         {
-            if (abs(matrix.arr[k][i]) > abs(matrix.arr[maxRow][i]))
+            double ratio = matrix[j][i] / matrix[i][i];
+
+            for (int k = i; k < n; k++)
             {
-                maxRow = k;
+                matrix[j][k] -= ratio * matrix[i][k];
             }
-        }
 
-        swap(matrix.arr[maxRow], matrix.arr[i]);
-
-        for (int k = i + 1; k < n; k++)
-        {
-            double factor = matrix.arr[k][i] / matrix.arr[i][i];
-
-            for (int j = i; j <= n; j++)
-            {
-                matrix.arr[k][j] -= matrix.arr[i][j] * factor;
-            }
+            vector[j] -= ratio * vector[i];
         }
     }
-
-    return matrix;
-}
-
-Vector backSubstitution(SquareMatrix matrix)
-{
-    Vector solution(n);
 
     for (int i = n - 1; i >= 0; i--)
     {
-        solution.arr[i] = matrix.arr[i][n] / matrix.arr[i][i];
+        solution[i] = vector[i];
 
-        for (int k = i - 1; k >= 0; k--)
+        for (int j = i + 1; j < n; j++)
         {
-            matrix.arr[k][n] -= matrix.arr[k][i] * solution.arr[i];
+            solution[i] -= matrix[i][j] * solution[j];
         }
-    }
 
-    return solution;
-}*/
+        solution[i] /= matrix[i][i];
+    }
+}
 
 Vector SquareMatrix::solve(const Vector v) const
 {
-    /*SquareMatrix matrix = gaussianElimination(matrix);
-    Vector solution = backSubstitution(matrix);
+    double *solution = new double[n];
 
-    return solution;*/
-    return Vector(1);
+    gaussianElimination(arr, v.getArray(), solution, n);
+
+    return Vector(n, solution);
 }
 
 SquareMatrix::~SquareMatrix() {}
