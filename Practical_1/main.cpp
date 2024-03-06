@@ -1,14 +1,10 @@
 #include <iostream>
 
-#include "Vector.h"
-
-void mm();
 void vectorTests();
 void matrixTests();
 
 int main()
 {
-    // mm();
     //  vectorTests();
     //  matrixTests();
 
@@ -217,74 +213,4 @@ void matrixTests()
     Vector v2 = sm1.solve(v1);
 
     v2.print();
-}
-
-void mm()
-{
-    int rowsA = 10;
-    int colsA = 10;
-    int rowsB = 10;
-    int colsB = 9;
-
-    // Create a double pointer for matrix A
-    double **A = new double *[rowsA];
-    for (int i = 0; i < rowsA; ++i)
-    {
-        A[i] = new double[colsA];
-    }
-
-    // Assign values to matrix A
-    double valuesA[10][10] = {
-        {-2, -3, -6, 3, -3, 7, -4, 9, 1, -3},
-        {-9, -8, 1, 8, -3, 6, -2, -7, -2, 9},
-        {5, 5, -6, 1, 4, 1, -8, -7, 8, 2},
-        {1, 3, 1, -2, -2, 6, -6, 4, 7, 3},
-        {-7, -1, -6, 8, -1, -2, 4, 6, -9, 4},
-        {-7, -7, 4, -7, -5, -7, -7, 3, -5, 3},
-        {6, 2, -6, 9, -6, 5, -7, -8, 1, 7},
-        {2, -3, -9, -6, 8, -4, -1, -2, -4, 8},
-        {1, 5, -4, 6, -7, 7, -4, -2, 9, 4},
-        {2, -9, 2, -6, 8, -7, -6, -1, -2, -1}};
-    for (int i = 0; i < rowsA; ++i)
-    {
-        for (int j = 0; j < colsA; ++j)
-        {
-            A[i][j] = valuesA[i][j];
-        }
-    }
-
-    // Create a double pointer for matrix B
-    double **B = new double *[rowsB];
-    for (int i = 0; i < rowsB; ++i)
-    {
-        B[i] = new double[colsB];
-    }
-
-    // Assign values to matrix B
-    double valuesB[10][9] = {
-        {-5, -8, -1, 1, 3, 7, 5, 9, 3},
-        {1, 8, 8, -4, -8, -4, -4, -5, 1},
-        {8, -7, -4, 8, 1, 8, -6, -6, -9},
-        {-8, -7, -2, -9, 7, 3, 4, 5, -8},
-        {5, -3, 1, 6, 7, -5, 3, -8, 8},
-        {-6, 9, 6, -7, 7, -7, -6, -8, -3},
-        {8, 9, 6, -7, -4, -6, 9, -4, -9},
-        {4, 4, 3, 4, -8, 4, 6, 7, -4},
-        {7, -9, 2, -8, -2, 6, -7, -4, 1},
-        {-8, 3, -5, 3, 5, 4, -9, 4, -8}};
-
-    for (int i = 0; i < rowsB; ++i)
-    {
-        for (int j = 0; j < colsB; ++j)
-        {
-            B[i][j] = valuesB[i][j];
-        }
-    }
-
-    Matrix m1(10, 10, A);
-    Matrix m2(10, 9, B);
-
-    Matrix m3 = m1 * m2;
-
-    m3.print();
 }

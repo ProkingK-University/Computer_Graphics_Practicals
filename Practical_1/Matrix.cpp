@@ -329,6 +329,20 @@ void gaussianElimination(double **matrix, double *vector, double *solution, int 
 {
     for (int i = 0; i < n; i++)
     {
+        if (matrix[i][i] == 0)
+        {
+            for (int k = i + 1; k < n; k++)
+            {
+                if (matrix[k][i] != 0)
+                {
+                    std::swap(matrix[i], matrix[k]);
+                    std::swap(vector[i], vector[k]);
+
+                    break;
+                }
+            }
+        }
+
         for (int j = i + 1; j < n; j++)
         {
             double ratio = matrix[j][i] / matrix[i][i];
@@ -344,6 +358,7 @@ void gaussianElimination(double **matrix, double *vector, double *solution, int 
 
     for (int i = n - 1; i >= 0; i--)
     {
+
         solution[i] = vector[i];
 
         for (int j = i + 1; j < n; j++)
