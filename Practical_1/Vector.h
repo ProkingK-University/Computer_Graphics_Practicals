@@ -23,7 +23,6 @@ public:
     double operator*(const Vector) const;
 
     int getN() const;
-    double *getArray() const;
     operator Matrix() const;
     double magnitude() const;
     Vector unitVector() const;

@@ -35,11 +35,6 @@ Vector::Vector(const Vector &other)
     }
 }
 
-double *Vector::getArray() const
-{
-    return arr;
-}
-
 Vector Vector::operator+(const Vector other) const
 {
     if (n == other.n)

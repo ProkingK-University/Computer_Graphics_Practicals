@@ -74,11 +74,11 @@ int Matrix::getN() const
 
 Matrix Matrix::operator~() const
 {
-    Matrix matrix = Matrix(n, m);
+    Matrix matrix = Matrix(m, n);
 
-    for (int i = 0; i < n; ++i)
+    for (int i = 0; i < n; i++)
     {
-        for (int j = 0; j < m; ++j)
+        for (int j = 0; j < m; j++)
         {
             matrix.arr[j][i] = arr[i][j];
         }
@@ -167,6 +167,11 @@ SquareMatrix::SquareMatrix(int n, double **arr) : Matrix(n, n, arr) {}
 
 double calculateDeterminant(double **matrix, int n)
 {
+    if (n == 1)
+    {
+        return matrix[0][0];
+    }
+
     double det = 0;
     double **subMatrix = new double *[n];
 
@@ -352,9 +357,15 @@ void gaussianElimination(double **matrix, double *vector, double *solution, int 
 
 Vector SquareMatrix::solve(const Vector v) const
 {
+    double *vector = new double[n];
     double *solution = new double[n];
 
-    gaussianElimination(arr, v.getArray(), solution, n);
+    for (int i = 0; i < n; i++)
+    {
+        vector[i] = v[i];
+    }
+
+    gaussianElimination(arr, vector, solution, n);
 
     return Vector(n, solution);
 }
