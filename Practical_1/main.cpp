@@ -1,12 +1,14 @@
 #include <iostream>
 
+#include "Vector.h"
+
 void vectorTests();
 void matrixTests();
 
 int main()
 {
-    //  vectorTests();
-    //  matrixTests();
+    // vectorTests();
+    // matrixTests();
 
     return 0;
 }

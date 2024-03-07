@@ -13,6 +13,14 @@ Matrix::Matrix(int n, int m)
         {
             arr[i] = new double[m];
         }
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < m; j++)
+            {
+                arr[i][j] = 0;
+            }
+        }
     }
     else
     {
@@ -115,11 +123,11 @@ Matrix Matrix::operator*(const Matrix other) const
     {
         Matrix matrix = Matrix(n, other.m);
 
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < n; ++i)
         {
-            for (int j = 0; j < other.m; j++)
+            for (int j = 0; j < other.m; ++j)
             {
-                for (int k = 0; k < m; k++)
+                for (int k = 0; k < m; ++k)
                 {
                     matrix.arr[i][j] += arr[i][k] * other.arr[k][j];
                 }
