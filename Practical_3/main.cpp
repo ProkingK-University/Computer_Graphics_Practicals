@@ -53,8 +53,7 @@ int main()
 
     bool wireframe = false;
     Shape *shp = new Box(Vector(3, new double[3]{0, 0, 0}), 0.2, 0.2, 0.2, Vector(3, new double[3]{1, 0, 0}));
-    //Shape *shp = new Rectangle(Vector(3, new double[3]{0, 0, 0}), Vector(3, new double[3]{0.2, 0, 0}), Vector(3, new double[3]{0.2, 0.2, 0}), Vector(3, new double[3]{0, 0.2, 0}), Vector(3, new double[3]{1, 0, 0}));
-
+    
     do
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
