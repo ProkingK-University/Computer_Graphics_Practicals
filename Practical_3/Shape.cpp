@@ -68,10 +68,11 @@ GLfloat *Shape::toVertexArray()
     {
         int count = 0;
 
-        for (int i = 0; i < totalVertices / 2; i++)
+        for (int i = 0; i < numPoints(); i++)
         {
             result[count++] = (*vertices)[i][0];
             result[count++] = (*vertices)[i][1];
+            result[count++] = (*vertices)[i][2];
         }
     }
 
@@ -146,9 +147,9 @@ GLfloat *Shape::toColourArray()
     else
     {
         int count = 0;
-        int totalVertices = numVertices();
+        int totalVertices = numPoints();
 
-        for (int i = 0; i < totalVertices / 2; i++)
+        for (int i = 0; i < totalVertices; i++)
         {
             result[count++] = (*colours)[i][0];
             result[count++] = (*colours)[i][1];
