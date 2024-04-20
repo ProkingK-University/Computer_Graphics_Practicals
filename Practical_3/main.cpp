@@ -11,6 +11,7 @@
 #include <GLFW/glfw3.h>
 
 #include "Cone.h"
+#include "Cylinder.h"
 #include "Plane.h"
 #include "TriangularPrism.h"
 #include "Shader.hpp"
@@ -55,8 +56,9 @@ int main()
 
     bool wireframe = false;
 
+    Shape *shp = new Cylinder(100, Vector(3, new double[3]{0, 0, 0}), 0.2, 0.4, Vector(3, new double[3]{1, 0, 0}));
     //Shape *shp = new Circle(100, Vector(3, new double[3]{0, 0, 0}), 0.2, Vector(3, new double[3]{1, 0, 0}));
-    Shape *shp = new Cone(100, Vector(3, new double[3]{0, 0, 0}), 0.2, 0.4, Vector(3, new double[3]{1, 0, 0}));
+    //Shape *shp = new Cone(100, Vector(3, new double[3]{0, 0, 0}), 0.2, 0.4, Vector(3, new double[3]{1, 0, 0}));
     // Shape *shp = new TriangularPrism(Vector(3, new double[3]{0, 0, 0}), 0.2, 0.2, 0.2, Vector(3, new double[3]{1, 0, 0}));
     //  Shape *shp = new Boxes(2, centers, heights, widths, lengths, colors);
     //   Shape *shp = new Box(Vector(3, new double[3]{0, 0, 0}), 0.2, 0.2, 0.2, Vector(3, new double[3]{1, 0, 0}));
