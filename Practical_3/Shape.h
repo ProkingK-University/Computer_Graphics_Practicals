@@ -30,7 +30,7 @@ public:
     virtual GLfloat *toVertexLineArray();
     virtual GLfloat *toColourLineArray();
 
-    virtual void rotate(GLfloat angle);
+    virtual void rotate(double angle);
     virtual void applyMatrix(Matrix matrix, bool rotate = false);
 
     virtual ~Shape();

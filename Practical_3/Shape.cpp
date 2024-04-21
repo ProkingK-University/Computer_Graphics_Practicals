@@ -107,16 +107,22 @@ GLfloat *Shape::toVertexLineArray()
     {
         result[0] = (*vertices)[0][0];
         result[1] = (*vertices)[0][1];
-        result[2] = (*vertices)[1][0];
-        result[3] = (*vertices)[1][1];
-        result[4] = (*vertices)[1][0];
-        result[5] = (*vertices)[1][1];
-        result[6] = (*vertices)[2][0];
-        result[7] = (*vertices)[2][1];
-        result[8] = (*vertices)[2][0];
-        result[9] = (*vertices)[2][1];
-        result[10] = (*vertices)[0][0];
-        result[11] = (*vertices)[0][1];
+        result[2] = (*vertices)[0][2];
+        result[3] = (*vertices)[1][0];
+        result[4] = (*vertices)[1][1];
+        result[5] = (*vertices)[1][2];
+        result[6] = (*vertices)[1][0];
+        result[7] = (*vertices)[1][1];
+        result[8] = (*vertices)[1][2];
+        result[9] = (*vertices)[2][0];
+        result[10] = (*vertices)[2][1];
+        result[11] = (*vertices)[2][2];
+        result[12] = (*vertices)[2][0];
+        result[13] = (*vertices)[2][1];
+        result[14] = (*vertices)[2][2];
+        result[15] = (*vertices)[0][0];
+        result[16] = (*vertices)[0][1];
+        result[17] = (*vertices)[0][2];
     }
 
     return result;
@@ -200,36 +206,40 @@ GLfloat *Shape::toColourLineArray()
     return result;
 }
 
-void Shape::rotate(GLfloat angle)
+void Shape::rotate(double angle)
 {
-    double *centre = new double[2];
+    double *centre = new double[3];
     centre[0] = (*shapes[0]->vertices)[0][0];
     centre[1] = (*shapes[0]->vertices)[0][1];
+    centre[2] = (*shapes[0]->vertices)[0][2];
 
-    double **originArray = new double *[3]
+    double **originArray = new double *[4]
     {
-        new double[3]{1, 0, -centre[0]},
-        new double[3]{0, 1, -centre[1]},
-        new double[3]{ 0, 0, 1 } };
+        new double[4]{1, 0, 0, -centre[0]},
+        new double[4]{0, 1, 0, -centre[1]},
+        new double[4]{0, 0, 1, -centre[2]},
+        new double[4]{0, 0, 0, 1} };
 
-    double **normalArray = new double *[3]
+    double **normalArray = new double *[4]
     {
-        new double[3]{1, 0, centre[0]},
-        new double[3]{0, 1, centre[1]},
-        new double[3]{ 0, 0, 1 } };
+        new double[4]{1, 0, 0, centre[0]},
+        new double[4]{0, 1, 0, centre[1]},
+        new double[4]{0, 0, 1, centre[2]},
+        new double[4]{0, 0, 0, 1} };
 
     double a = cos(angle);
     double b = sin(angle);
 
-    double **arrayRotate = new double *[3]
+    double **arrayRotate = new double *[4]
     {
-        new double[3]{a, -b, 0},
-        new double[3]{b, a, 0},
-        new double[3]{0, 0, 1} };
+        new double[4]{a, -b, 0, 0},
+        new double[4]{b, a, 0, 0},
+        new double[4]{0, 0, 1, 0},
+        new double[4] { 0, 0, 0, 1 } };
 
-    Matrix origin(3, 3, originArray);
-    Matrix normal(3, 3, normalArray);
-    Matrix rotate(3, 3, arrayRotate);
+    Matrix origin(4, 4, originArray);
+    Matrix normal(4, 4, normalArray);
+    Matrix rotate(4, 4, arrayRotate);
 
     Matrix result = normal * rotate * origin;
 
@@ -240,10 +250,7 @@ void Shape::applyMatrix(Matrix matrix, bool rotate)
 {
     if (rotate)
     {
-        shapes[4]->rotate(10);
-        shapes[5]->rotate(10);
-        shapes[6]->rotate(10);
-        shapes[7]->rotate(10);
+        shapes[12]->rotate(10);
     }
     else
     {

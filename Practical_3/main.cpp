@@ -54,6 +54,8 @@ int main()
     GLuint colorBuffer;
     glGenBuffers(1, &colorBuffer);
 
+    bool on = false;
+    double power = 0.02;
     bool wireframe = false;
 
     Shape *shp = new Plane();
@@ -112,7 +114,12 @@ int main()
         glfwSwapBuffers(window);
         glfwPollEvents();
 
-        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+        if (on)
+        {
+            shp->shapes[12]->rotate(power);
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         {
             double a = cos(0.02);
             double b = sin(0.02);
@@ -126,49 +133,197 @@ int main()
             };
 
             Matrix rotationX(4, 4, array);
-
-            a = cos(0.04);
-            b = sin(0.04);
-
-            array = new double *[4]
-            {
-                new double[4]{a, 0, -b, 0},
-                    new double[4]{0, 1, 0, 0},
-                    new double[4]{b, 0, a, 0},
-                    new double[4] { 0, 0, 0, 1 }
-            };
-
-            Matrix rotationY(4, 4, array);
-
-            Matrix rot = rotationX * rotationY;
-
-            shp->applyMatrix(rot);
+            shp->applyMatrix(rotationX);
         }
-        if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+
+        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
         {
+            double a = cos(-0.02);
+            double b = sin(-0.02);
+
             double **array = new double *[4]
             {
                 new double[4]{1, 0, 0, 0},
-                    new double[4]{0, cos(-0.02), -sin(-0.02), 0},
-                    new double[4]{0, sin(-0.02), cos(-0.02), 0},
+                    new double[4]{0, a, -b, 0},
+                    new double[4]{0, b, a, 0},
                     new double[4] { 0, 0, 0, 1 }
             };
 
             Matrix rotationX(4, 4, array);
+            shp->applyMatrix(rotationX);
+        }
 
-            array = new double *[4]
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        {
+            double a = cos(0.02);
+            double b = sin(0.02);
+
+            double **array = new double *[4]
             {
-                new double[4]{cos(0.04), 0, -sin(0.04), 0},
+                new double[4]{a, 0, b, 0},
                     new double[4]{0, 1, 0, 0},
-                    new double[4]{sin(0.04), 0, cos(0.04), 0},
+                    new double[4]{-b, 0, a, 0},
                     new double[4] { 0, 0, 0, 1 }
             };
 
             Matrix rotationY(4, 4, array);
+            shp->applyMatrix(rotationY);
+        }
 
-            Matrix rot = rotationX * rotationY;
+        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        {
+            double a = cos(-0.02);
+            double b = sin(-0.02);
 
-            shp->applyMatrix(rot);
+            double **array = new double *[4]
+            {
+                new double[4]{a, 0, b, 0},
+                    new double[4]{0, 1, 0, 0},
+                    new double[4]{-b, 0, a, 0},
+                    new double[4] { 0, 0, 0, 1 }
+            };
+
+            Matrix rotationY(4, 4, array);
+            shp->applyMatrix(rotationY);
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+        {
+            double a = cos(0.02);
+            double b = sin(0.02);
+
+            double **array = new double *[4]
+            {
+                new double[4]{a, -b, 0, 0},
+                    new double[4]{b, a, 0, 0},
+                    new double[4]{0, 0, 1, 0},
+                    new double[4] { 0, 0, 0, 1 }
+            };
+
+            Matrix rotationZ(4, 4, array);
+            shp->applyMatrix(rotationZ);
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+        {
+            double a = cos(-0.02);
+            double b = sin(-0.02);
+
+            double **array = new double *[4]
+            {
+                new double[4]{a, -b, 0, 0},
+                    new double[4]{b, a, 0, 0},
+                    new double[4]{0, 0, 1, 0},
+                    new double[4] { 0, 0, 0, 1 }
+            };
+
+            Matrix rotationZ(4, 4, array);
+            shp->applyMatrix(rotationZ);
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
+        {
+            double **array = new double *[4]
+            {
+                new double[4]{1, 0, 0, 0},
+                    new double[4]{0, 1, 0, 0.02},
+                    new double[4]{0, 0, 1, 0},
+                    new double[4] { 0, 0, 0, 1 }
+            };
+
+            Matrix translation(4, 4, array);
+            shp->applyMatrix(translation);
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
+        {
+            double **array = new double *[4]
+            {
+                new double[4]{1, 0, 0, 0},
+                    new double[4]{0, 1, 0, -0.02},
+                    new double[4]{0, 0, 1, 0},
+                    new double[4] { 0, 0, 0, 1 }
+            };
+
+            Matrix translation(4, 4, array);
+            shp->applyMatrix(translation);
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
+        {
+            double **array = new double *[4]
+            {
+                new double[4]{1, 0, 0, 0.02},
+                    new double[4]{0, 1, 0, 0},
+                    new double[4]{0, 0, 1, 0},
+                    new double[4] { 0, 0, 0, 1 }
+            };
+
+            Matrix translation(4, 4, array);
+            shp->applyMatrix(translation);
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)
+        {
+            double **array = new double *[4]
+            {
+                new double[4]{1, 0, 0, -0.02},
+                    new double[4]{0, 1, 0, 0},
+                    new double[4]{0, 0, 1, 0},
+                    new double[4] { 0, 0, 0, 1 }
+            };
+
+            Matrix translation(4, 4, array);
+            shp->applyMatrix(translation);
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS)
+        {
+            double **array = new double *[4]
+            {
+                new double[4]{1, 0, 0, 0},
+                    new double[4]{0, 1, 0, 0},
+                    new double[4]{0, 0, 1, 0.02},
+                    new double[4] { 0, 0, 0, 1 }
+            };
+
+            Matrix translation(4, 4, array);
+            shp->applyMatrix(translation);
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS)
+        {
+            double **array = new double *[4]
+            {
+                new double[4]{1, 0, 0, 0},
+                    new double[4]{0, 1, 0, 0},
+                    new double[4]{0, 0, 1, -0.02},
+                    new double[4] { 0, 0, 0, 1 }
+            };
+
+            Matrix translation(4, 4, array);
+            shp->applyMatrix(translation);
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS)
+        {
+            wireframe = !wireframe;
+            // std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
+        {
+            on = !on;
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_EQUAL) == GLFW_PRESS)
+        {
+            power += 0.01;
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_MINUS) == GLFW_PRESS)
+        {
+            power -= 0.01;
         }
 
         delete[] vertices;
