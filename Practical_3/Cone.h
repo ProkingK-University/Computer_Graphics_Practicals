@@ -6,7 +6,7 @@
 class Cone : public Shape
 {
 public:
-    Cone(int numTriangles, Vector center, GLfloat radius, GLfloat height, Vector color);
+    Cone(int numTriangles, Vector center, double radius, double height, Vector color);
 };
 
 #endif

@@ -30,12 +30,12 @@ Box::Box(Vector center, double height, double width, double length, Vector color
     Vector farLeftBottom = farPlane + leftPlane + bottomPlane;
     Vector farRightBottom = farPlane + rightPlane + bottomPlane;
 
-    Rectangle *front = new Rectangle(nearRightTop, nearLeftTop, nearLeftBottom, nearRightBottom, color * 0.1f);
-    Rectangle *back = new Rectangle(farLeftTop, farRightTop, farRightBottom, farLeftBottom, color * 0.2f);
-    Rectangle *left = new Rectangle(nearLeftTop, farLeftTop, farLeftBottom, nearLeftBottom, color * 0.3f);
-    Rectangle *right = new Rectangle(farRightTop, nearRightTop, nearRightBottom, farRightBottom, color * 0.4f);
-    Rectangle *bottom = new Rectangle(nearRightBottom, nearLeftBottom, farLeftBottom, farRightBottom, color * 0.5f);
-    Rectangle *top = new Rectangle(nearRightTop, nearLeftTop, farLeftTop, farRightTop, color * 0.6f);
+    Rectangle *front = new Rectangle(nearRightTop, nearLeftTop, nearLeftBottom, nearRightBottom, color);
+    Rectangle *back = new Rectangle(farLeftTop, farRightTop, farRightBottom, farLeftBottom, color);
+    Rectangle *left = new Rectangle(nearLeftTop, farLeftTop, farLeftBottom, nearLeftBottom, color);
+    Rectangle *right = new Rectangle(farRightTop, nearRightTop, nearRightBottom, farRightBottom, color);
+    Rectangle *bottom = new Rectangle(nearRightBottom, nearLeftBottom, farLeftBottom, farRightBottom, color);
+    Rectangle *top = new Rectangle(nearRightTop, nearLeftTop, farLeftTop, farRightTop, color);
 
     numShapes = 6;
 
