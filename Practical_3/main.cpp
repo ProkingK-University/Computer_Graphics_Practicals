@@ -39,6 +39,8 @@ int main()
     }
 
     glClearColor(0.2, 0.2, 0.2, 0.2);
+    // glEnable(GL_DEPTH_TEST);
+    // glDepthFunc(GL_NEAREST);
 
     GLuint VertexArrayID;
     glGenVertexArrays(1, &VertexArrayID);
