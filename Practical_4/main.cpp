@@ -7,7 +7,7 @@
 #include <glm/glm.hpp>
 #include <GLFW/glfw3.h>
 
-#include "Box.h"
+#include "Scene.h"
 #include "Shader.hpp"
 
 using namespace glm;
@@ -50,18 +50,15 @@ int main()
     GLuint colorBuffer;
     glGenBuffers(1, &colorBuffer);
 
-    Shape *shp = new Box(Vector(3, new double[3]{0, 0, 0}), 1, 1, 1, Vector(3, new double[3]{1, 0, 0}));
+    Shape *shp = new Scene();
 
     do
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(programID);
 
-        GLfloat *vertices = shp->toVertexLineArray();
-        GLfloat *colors = shp->toColourLineArray();
-
-        GLfloat *vertices = shp->toVertexArray();
         GLfloat *colors = shp->toColourArray();
+        GLfloat *vertices = shp->toVertexArray();
 
         glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
         glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat[shp->numVertices()]), vertices, GL_STATIC_DRAW);
