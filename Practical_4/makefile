@@ -1,8 +1,8 @@
 #add all the files that you need to the files makefile variable below as a space seperated list
-files = 
+files = Vector.cpp Matrix.cpp Shape.cpp Triangle.cpp Rectangle.cpp Circle.cpp Box.cpp
 
 main: main.cpp glad.c
-	g++ -g Shader.cpp $(files) main.cpp glad.c -lglfw3 -pthread -lGLEW -ldl -lGL -o main
+	g++ -g Shader.cpp $(files) main.cpp glad.c -lglfw -pthread -lGLEW -ldl -lGL -o main
 
 clean:
 	rm -f *.o main
