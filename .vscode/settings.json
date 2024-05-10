@@ -1,5 +1,11 @@
 {
     "files.associations": {
         "new": "cpp"
-    }
+    },
+    "cSpell.words": [
+        "GLEW",
+        "GLFW",
+        "OPENGL",
+        "Wwindow"
+    ]
 }
